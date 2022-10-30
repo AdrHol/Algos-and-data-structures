@@ -17,7 +17,6 @@ class binaryTree {
     }
 
     buildTree(){
-
         let sortedArray = this.sort();
 
         function decomposition(arr){
@@ -36,7 +35,6 @@ class binaryTree {
     }
     insert(value){
       if (this.root === null) throw 'Root is empty';
-        
         function rec(value, root){
             if (root === null){
                 root = new node(value, null, null);
@@ -49,10 +47,69 @@ class binaryTree {
             }
             return root;
         }
-
       this.root = rec(value, this.root);
+    }
+    delete(value){
+        this.root = this.deleteRec(value, this.root);
+    }
+    deleteRec(value, root){
+        if(root.data > value){
+            root.left = this.deleteRec(value, root.left);
+        } else if (root.data < value){
+            root.right = this.deleteRec(value, root.right);
+        } else {
+            if(root.left == null){
+                return root.right;
+            }else if (root.right == null){
+                return root.left;
+            } else {
+                let value = this.min(root.right);
+                this.delete(value);
+                root.data = value; 
+            }
+        }
 
+        return root;
+    }
+    min(root){
+        if (root.left == null){
+            return root.data;
+        } else {
+            return this.min(root.left);
+        }
+    }
 
+    find(value, root = this.root){
+            if(root.data === value) return root;
+
+            if(root.data > value){
+                return this.find(value, root.left);
+            } else {
+                return this.find(value, root.right);
+            }
+        }
+    levelOrder(arg = undefined){
+        let orderQueue = new queue();
+        orderQueue.push(this.root);
+
+        if(!arg){
+            return orderQueue.eval();
+        } else {
+            let arr = orderQueue.eval();
+            let func = arg;
+            arr.forEach(element => {
+                return func(element);
+            })
+        }
+    }
+    inorder(arg = undefined){
+// TODO: FUNCTION BODY
+    }
+    preorder(arg = undefined){
+// TODO: FUNCTION BODY
+    }
+    postorder(arg = undefined){
+// TODO: FUNCTION BODY
     }
 
 }
@@ -74,3 +131,32 @@ prettyPrint = (node, prefix = '', isLeft = true) => {
       prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
     }
   }
+
+
+  class queue {
+      constructor(arr = []){
+          this.evalList = arr
+          this.result = [];
+      }
+      push(value){
+          this.evalList.push(value);
+      }
+      eval(){
+       while(this.evalList.length > 0){
+            let first = this.evalList.shift();
+
+            if(first == null){
+                continue;
+            } else {
+                this.result.push(first);
+                this.evalList.push(first.left);
+                this.evalList.push(first.right);
+            }
+
+            
+        }
+        return this.result;
+      }
+  }
+
+
