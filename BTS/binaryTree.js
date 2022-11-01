@@ -1,12 +1,11 @@
 class binaryTree { 
-    constructor(initalArr = null){
-        this.arr = initalArr;
-        this.root = null;
+    constructor(initialArr = null){
+        this.root = initialArr;
     }
 
     sort(){
      let set = new Set();
-     this.arr.forEach(element => {
+     this.root.forEach(element => {
          set.add(element);
      });
      let sortedArray = Array.from(set);
@@ -103,13 +102,144 @@ class binaryTree {
         }
     }
     inorder(arg = undefined){
-// TODO: FUNCTION BODY
+
+        let array = [];
+        
+        function inorderRec(root){
+
+            if(root === null) return; 
+
+            inorderRec(root.left);
+            array.push(root);
+            inorderRec(root.right);
+        };
+
+        inorderRec(this.root);
+
+        if(!arg){
+            return array;
+        } else {
+            let func = arg;
+            array.forEach(element => {
+                return func(element);
+            })
+        }
+
     }
     preorder(arg = undefined){
-// TODO: FUNCTION BODY
+        let array = [];
+        
+        function preorderRec(root){
+
+            if(root === null) return; 
+
+            array.push(root);
+            preorderRec(root.left);
+            preorderRec(root.right);
+        };
+
+        preorderRec(this.root);
+
+        if(!arg){
+            return array;
+        } else {
+            let func = arg;
+            array.forEach(element => {
+                return func(element);
+            })
+        }
+
     }
     postorder(arg = undefined){
-// TODO: FUNCTION BODY
+        let array = [];
+        
+        function postorderRec(root){
+
+            if(root === null) return; 
+
+            postorderRec(root.left);
+            postorderRec(root.right);
+            array.push(root);
+        };
+
+        postorderRec(this.root);
+
+        if(!arg){
+            return array;
+        } else {
+            let func = arg;
+            array.forEach(element => {
+                return func(element);
+            })
+        }
+
+    }
+    height(node){
+        function count(root){
+            if (root.left === null && root.right === null) return 1;
+
+            if(root.left === null){
+                return count(root.right) + 1;
+            }
+            if(root.right === null ){
+                return count(root.left) + 1;
+            }
+            if(root.right && root.left){
+
+                let right = (count(root.right) + 1);
+                let left = (count(root.left) + 1);
+
+                if(right > left){
+                    return right;
+                } else {
+                    return left;
+                }
+            }
+        }
+        return count(node);
+    }
+
+    depth(target){
+
+        function recursive(node, target){
+
+        
+            if(node.data === target.data){
+                console.log('found');
+                return 0;
+            }
+            if(target.data > node.data){
+                return recursive(node.right, target) + 1;
+            } else if (target.data < node.data) {
+                return recursive(node.left, target) + 1;
+            }
+        }
+
+        return recursive(this.root, target);
+ 
+    }
+
+    isBalanced(){
+        let left = this.height(this.root.left);
+        let right = this.height(this.root.right);
+
+        if(Math.abs(left - right) > 1){
+            return false;
+        } else {
+            return true;
+        }
+        
+    }
+
+    rebalance(){
+        let sortedArray = [];
+        this.inorder(function(element){
+            sortedArray.push(element.data);
+        });
+        this.root = sortedArray;
+        this.buildTree();
+        console.log('Done !');
+
     }
 
 }
