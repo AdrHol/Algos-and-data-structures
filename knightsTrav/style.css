@@ -19,6 +19,7 @@ div.container {
     gap: 50px;
 }
 div.board {
+    position: relative;
     width: 500px;
     height: 500px;
     display: grid;
@@ -101,3 +102,30 @@ ul.path-list{
     -ms-transform: rotate(358deg);
     transform: rotate(358deg);
 }
+
+div.field-legend-letters {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+}
+div.field-legend-numbers {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: -1.5rem;
+    top: 20px;
+    height: 100%;
+}
+
+
+div.letter{
+    flex: 1;
+    text-align: center;
+}
+div.number {
+    flex: 1;
+    text-align: center;
+}
+

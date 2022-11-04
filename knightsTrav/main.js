@@ -142,6 +142,28 @@ const render = {
     board(){
         const board = document.querySelector('.board');
         const fields = document.createElement('div');
+        fields.innerHTML = `
+        <div class="field-legend-letters">
+        <div class="letter">A</div>
+        <div class="letter">B</div>
+        <div class="letter">C</div>
+        <div class="letter">D</div>
+        <div class="letter">E</div>
+        <div class="letter">F</div>
+        <div class="letter">G</div>
+        <div class="letter">H</div>
+        </div>
+        <div class="field-legend-numbers">
+        <div class="letter">8</div>
+        <div class="letter">7</div>
+        <div class="letter">6</div>
+        <div class="letter">5</div>
+        <div class="letter">4</div>
+        <div class="letter">3</div>
+        <div class="letter">2</div>
+        <div class="letter">1</div>
+        </div>`
+      
         for(let i = 7; i >= 0; i--){ 
             for(let j = 0; j < 8; j++){
                 let field = document.createElement('div');
@@ -180,8 +202,6 @@ const render = {
                 element.classList.remove('hello');
                 element.textContent = '';
             }
-           
-            
         })
     }
 }
@@ -209,19 +229,38 @@ const output = {
     
             path.forEach((element, index) => {
                 const getDom = document.getElementById(`[${element}]`);
+                const translated = this.translate(element);
                 getDom.classList.add('hello');
                 if(index > 0 && index < path.length -1){
                     getDom.textContent = index;
                 }
 
-            const li = document.createElement('li');
-            li.classList.add('path-node');
-            li.textContent = `Step: ${index} -> ${element}`;
-            ul.appendChild(li);
+                if(index === 0){
+                    const starting = document.querySelector('#starting-field');
+                    starting.textContent = translated;
+                } 
+                if(index === path.length - 1){
+                    const finish = document.querySelector('#end-field');
+                    finish.textContent = translated;
+                }
+                const li = document.createElement('li');
+                li.classList.add('path-node');
+                li.textContent = `Step: ${index} -> ${translated}`;
+                ul.appendChild(li);
             
         })
     },
-    
+    translate(cords){
+        const xCords = ['A','B','C','D','E','F','G', 'H'];
+        const yCords = [1,2,3,4,5,6,7,8];
+        let result = '';
+
+        result += xCords[cords[0]];
+        result += yCords[cords[2]];
+
+        return result;
+        
+    }
 }
 
 
